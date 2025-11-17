@@ -34,6 +34,20 @@ VALUES ('Apple', 2000.00, 3000.00, 2500.00)
 SYSTEM STOP MERGES Prices;
 SYSTEM START MERGES Prices;
 
---
+--блокировка репликации
+SYSTEM STOP FETCHES Prices;
+SYSTEM START FETCHES Prices;
+
+--блокировка отправки данных
+SYSTEM STOP REPLICATED SENDS;
+SYSTEM START REPLICATED SENDS;
+
+--блокировки транзакций
+BEGIN TRANSACTION;
+INSERT INTO Prices(Commodity, Min_Price, Max_Price, Modal_Price) 
+VALUES ('Mash', 1000.00, 3000.00, 2000.00);
+INSERT INTO Prices(Commodity, Min_Price, Max_Price, Modal_Price) 
+VALUES ('Grips', 600.00, 1000.00, 800.00);
+COMMIT 
 
 
